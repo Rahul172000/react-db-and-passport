@@ -1,0 +1,4 @@
+redirect after logging out
+redirect to profile after sign up
+retrieve value from database in profile.js
+done!!!!then
