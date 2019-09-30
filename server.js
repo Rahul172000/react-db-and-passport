@@ -2,6 +2,7 @@ const express=require('express')
 const app=express();
 const cors=require('cors')
 const users=require('./db').users
+const google_users=require('./db').google_users
 const session=require('express-session')
 const flash = require('connect-flash');
 const cookieParser = require('cookie-parser')
@@ -51,21 +52,44 @@ app.get('/logout',(req,res)=>{
 })
 app.post('/save',(req,res)=>{
     console.log(req.user)
-    users.destroy({
-        where:{
-            username:req.user.username
-        }
-    })
-    .then((result)=>{
-        users.create({
-            username:req.user.username,
-            password:req.user.password,
-            value:req.body.value
+    if(req.user.provider!=='google')
+    {
+        users.destroy({
+            where:{
+                username:req.user.username
+            }
         })
-        .then((account)=>{res.send('DONE')})
+        .then((result)=>{
+            users.create({
+                username:req.user.username,
+                password:req.user.password,
+                value:req.body.value
+            })
+            .then((account)=>{res.send('DONE')})
+            .catch((err)=>{throw err})
+        })
         .catch((err)=>{throw err})
-    })
-    .catch((err)=>{throw err})
+    }
+    else
+    {
+        google_users.destroy({
+            where:{
+                id:req.user.id
+            }
+        })
+        .then((result)=>{
+            google_users.create({
+                id:req.user.id,
+                token:req.user.token,
+                email:req.user.email,
+                name:req.user.name,
+                value:req.body.value
+            })
+            .then((account)=>{res.send('done')})
+            .catch((err)=>{throw err})
+        })
+        .catch((err)=>{throw err})
+    }    
 })
 app.get('/private',(req,res)=>{
     //console.log(req.flash('message'))
@@ -77,5 +101,6 @@ app.get('/fail',(req,res)=>{
     //console.log(req.flash('message'))
     res.send({user:null,message:req.flash('message')[0]})
 })
-
+app.get('/auth/google',passport.authenticate('google', {scope:['profile']}))
+app.get('/auth/google/callback',passport.authenticate('google', { successRedirect:'/private',failureRedirect: '/fail',failureFlash:true }));
 app.listen(2000,()=>{console.log("SERVER STARTED")})

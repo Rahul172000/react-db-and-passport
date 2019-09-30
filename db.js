@@ -25,8 +25,28 @@ const users=db.define('table',{
     }
 })
 
+const google_users=db.define('tablegoogle',{
+    id:{
+        type:sequelize.STRING,
+        primaryKey:true
+    },
+    token:{
+        type:sequelize.STRING
+    },
+    name:{
+        type:sequelize.STRING
+    },
+    value:{
+        type:sequelize.INTEGER,
+        defaultValue:0
+    },
+    provider:{
+        type:sequelize.STRING
+    }
+})
+
 db.sync()
 .then(()=>{console.log("DATABASE IS READY")})
 .catch(()=>{console.log("PROBLEM STARTING THE DATABASE")})
 
-module.exports={users};
+module.exports={users,google_users};
