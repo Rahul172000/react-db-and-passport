@@ -69,13 +69,13 @@ class App extends React.Component
                 if(object.userloggedin===true)
                 {return <Login/>}
                 else
-                {return <Redirect to='/profile' exact strict />}
+                {return <Profile />}
               }}/>
               <Route path="/login/google" exact strict render={()=>{
                 if(object.userloggedin===true)
                 {return <Googlelogin/>}
                 else
-                {return <Redirect to='/profile' exact strict />}
+                {return <Profile />}
               }}/>
               <Route path='/guest' exact strict render={()=>{
                 if(object.userloggedin!==true)
@@ -84,7 +84,7 @@ class App extends React.Component
                 {
                   let user={username:"GUEST",password:"GUEST",value:0};
                   object.assignuser(user);
-                  return( <Redirect to='/profile' exact strict/>)
+                  return( <Profile/>)
                 }
               }}/>
               {/*Route for private page which should be visible only if user is logged in*/}

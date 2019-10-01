@@ -6,16 +6,13 @@ const GoogleStrategy=require('passport-google-oauth20')
 const oauth=require('./oauth')
 
 passport.serializeUser(function (user, done) {
-    console.log(user.id);
-    console.log(user.provider)
     if(user.provider==='google')
-    {console.log("google");done(null,user.id)}
+    {done(null,user.id)}
     else
     {done(null, user.username)}
 })
 
 passport.deserializeUser(function (username, done) {
-    //console.log(username)
     users.findOne({
         where:{
             username:username
@@ -38,7 +35,6 @@ passport.deserializeUser(function (username, done) {
         }
         else
         {
-            //console.log(user);
             return done(null, user)
         }
     })
@@ -124,7 +120,7 @@ passport.use(new GoogleStrategy({
                     value:0,
                     provider:'google'
                 })
-                .then((user)=>{return done(user,req.flash('message',"Signed up with google"));})
+                .then((user)=>{return done(null,user,req.flash('message',"Signed up with google"));})
                 .catch((err)=>{return done(err,req.flash('message',"Problem signing up"));})
             }
         })

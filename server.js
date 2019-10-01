@@ -51,7 +51,6 @@ app.get('/logout',(req,res)=>{
     res.send("DONE")
 })
 app.post('/save',(req,res)=>{
-    console.log(req.user)
     if(req.user.provider!=='google')
     {
         users.destroy({
@@ -81,9 +80,9 @@ app.post('/save',(req,res)=>{
             google_users.create({
                 id:req.user.id,
                 token:req.user.token,
-                email:req.user.email,
                 name:req.user.name,
-                value:req.body.value
+                value:req.body.value,
+                provider:req.user.provider
             })
             .then((account)=>{res.send('done')})
             .catch((err)=>{throw err})
@@ -94,6 +93,7 @@ app.post('/save',(req,res)=>{
 app.get('/private',(req,res)=>{
     //console.log(req.flash('message'))
     //console.log(req.user)
+    //res.send(req.user)
     res.send({user:req.user,message:req.flash('message')[0]})
 })
 app.get('/fail',(req,res)=>{
