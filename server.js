@@ -102,7 +102,7 @@ app.get('/fail',(req,res)=>{
     res.send({user:null,message:req.flash('message')[0]})
 })
 app.get('/googleprivate',(req,res)=>{
-    res.redirect('http://localhost:3000/profile');
+    res.redirect('http://localhost:3000/profile');//redirect to profile page which will check via check path if any user is logged in or not
 })
 app.get('/auth/google',passport.authenticate('google', {scope:['profile']}))
 app.get('/auth/google/callback',passport.authenticate('google', { successRedirect:'/googleprivate',failureRedirect: '/fail',failureFlash:true }));

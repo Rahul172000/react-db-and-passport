@@ -6,7 +6,6 @@ import Home from "./components/Home"
 import Signup from './components/Signup'
 import Login from './components/Login'
 import Profile from './components/profile'
-import Googlelogin from './components/googlelogin'
 import {ModalConsumer} from './components/context'
 import axios from 'axios'
 
@@ -79,12 +78,6 @@ class App extends React.Component
               <Route path="/login" exact strict render={()=>{
                 if(object.userloggedin===true)
                 {return <Login/>}
-                else
-                {return <Profile />}
-              }}/>
-              <Route path="/login/google" exact strict render={()=>{
-                if(object.userloggedin===true)
-                {return <Googlelogin/>}
                 else
                 {return <Profile />}
               }}/>
