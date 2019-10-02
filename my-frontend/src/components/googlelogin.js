@@ -18,8 +18,7 @@ class Googlelogin extends React.Component
 
     componentDidMount()
     {
-        console.log("1")
-        axios.get('http://localhost:2000/auth/google',{withCredentials:true,headers:{"Content-Type":"application/json"}})
+        /*axios.get('http://localhost:2000/auth/google',{withCredentials:true,headers:{"Content-Type":"application/json"}})
         .then((res)=>{
             console.log("2")
             if(res.data.user!==null)
@@ -35,7 +34,7 @@ class Googlelogin extends React.Component
             {
                 this.setState({info:res.data.message})
             }
-        })
+        })*/
     }
 
     render()
@@ -46,9 +45,11 @@ class Googlelogin extends React.Component
                 if(this.state.redirect===false)
                 {return(
                     <h1 className='text-center'>
-                            LOADING...
+                            LOADING
                             <br/>
-                            {this.state.info}
+                            <div class="spinner-border" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
                         </h1>
                 )}
                 else

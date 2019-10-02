@@ -101,6 +101,9 @@ app.get('/fail',(req,res)=>{
     //console.log(req.flash('message'))
     res.send({user:null,message:req.flash('message')[0]})
 })
+app.get('/googleprivate',(req,res)=>{
+    res.redirect('http://localhost:3000/profile');
+})
 app.get('/auth/google',passport.authenticate('google', {scope:['profile']}))
-app.get('/auth/google/callback',passport.authenticate('google', { successRedirect:'/private',failureRedirect: '/fail',failureFlash:true }));
+app.get('/auth/google/callback',passport.authenticate('google', { successRedirect:'/googleprivate',failureRedirect: '/fail',failureFlash:true }));
 app.listen(2000,()=>{console.log("SERVER STARTED")})

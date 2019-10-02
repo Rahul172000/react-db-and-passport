@@ -44,9 +44,20 @@ class App extends React.Component
   {
       axios.get('http://localhost:2000/check',this.state,{withCredentials:true,headers:{"Content-Type":"application/json"}})
       .then((res)=>{
-          console.log(res.data);
+          //console.log(res.data);
           if(res.data.user!==true)
-          {this.assignuser(res.data.user);}
+          {
+            if(res.data.user.provider!=='google')
+            {this.assignuser(res.data.user);}
+            else
+            {
+              let user={
+                username:res.data.user.name,
+                value:res.data.user.value
+              }
+              this.assignuser(user);
+            }
+          }
       })
       .catch((err)=>{throw err;})
   }
