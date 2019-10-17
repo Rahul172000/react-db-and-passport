@@ -12,7 +12,8 @@ class Forgot_password extends React.Component
             username:"",
             email:"",
             message1:"",
-            message2:""
+            message2:"",
+            waitingemail:false
         }
         this.onchange=this.onchange.bind(this);
         this.usernameclickhandler=this.usernameclickhandler.bind(this);
@@ -21,13 +22,13 @@ class Forgot_password extends React.Component
 
     emailhandler()
     {
-        console.log(this.state.user)
+        this.setState({waitingemail:true})
         axios.post('http://localhost:2000/sendingpass',{email:this.state.email,user:this.state.user})
         .then((res)=>{
             if(res.data.success===true)
             {
                 console.log("details:"+res.data.msg);
-                return this.setState({message2:"YOUR PASSWORD IS SHARED VIA EMAIL"})
+                return this.setState({message2:"YOUR PASSWORD IS SHARED VIA EMAIL",waitingemail:false})
             }
             else
             {
@@ -79,7 +80,11 @@ class Forgot_password extends React.Component
                     <br/>
                     <div className="row" style={{display:this.state.user===null?"none":"block"}}>
                         <div className="col-12 text-center"><input type="text" name="email" onChange={this.onchange} placeholder="EMAIL-id"/></div>
-                        <div className="col-12 text-center"><button onClick={this.emailhandler} className="btn btn-outline-primary" style={{marginTop:"1%"}}>SEND</button></div>
+                        <div className="col-12 text-center">
+                            <button onClick={this.emailhandler} className="btn btn-outline-primary" style={{marginTop:"1%"}}>SEND</button>
+                            <br/>
+                            <div className="text-center spinner-grow text-primary" style={{display:this.state.waitingemail===false?"none":""}}><span className="sr-only">Loading...</span></div>
+                        </div>
                     </div>
                     <br/>
                     <div className="row"><div className="col text-center">{this.state.message2}</div></div>
