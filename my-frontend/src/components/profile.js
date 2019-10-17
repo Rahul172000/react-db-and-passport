@@ -10,6 +10,7 @@ class Profile extends React.Component
     {
         super();
         this.logout=this.logout.bind(this)
+        this.delete=this.delete.bind(this);
     }
 
     logout(callbackmodal,value,user)
@@ -25,7 +26,12 @@ class Profile extends React.Component
         .catch((err)=>{throw err;})
     }
 
-
+    delete(callbackmodal)
+    {
+        axios.post('http://localhost:2000/delete',{withCredentials:true,headers:{"Content-Type":"application/json"}})
+        .then((res)=>{callbackmodal("YOUR ACCOUNT IS DELETED..THANK YOU FOR USING")})
+        .catch((err)=>{callbackmodal(err)})
+    }
 
     render()
     {
@@ -58,6 +64,10 @@ class Profile extends React.Component
                                     <br/>
                                     <div className="text-center">
                                         <button className="btn btn-outline-danger" onClick={()=>{this.logout(object.modalon,object.value,object.userloggedin)}}>LOGOUT</button>
+                                    </div>
+                                    <br/>
+                                    <div className="text-center">
+                                        <button onClick={()=>{this.delete(object.modalon)}} className="btn btn-outline-info">DELETE MY ACCOUNT</button>
                                     </div>
                             </React.Fragment>
                         )

@@ -75,6 +75,16 @@ app.post('/sendingpass',(req,res)=>{
         else{res.send({msg:info,success:true});}
     })
 })
+app.post('/delete',(req,res)=>{
+    let username=req.user.username;
+    req.logOut();
+    users.destroy({
+        where:{
+            username:username
+        }
+    })
+    res.send("done");
+})
 app.post('/signup',passport.authenticate('signup',{
     successRedirect:'/private',
     failureRedirect:'/fail',
