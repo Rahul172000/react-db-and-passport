@@ -7,6 +7,17 @@ const session=require('express-session')
 const flash = require('connect-flash');
 const cookieParser = require('cookie-parser')
 const passport=require('./passport')
+const nodemailer=require('nodemailer')//////////module for sending mails from app
+
+const oauth_details=require('./oauth')
+
+const transporter=nodemailer.createTransport({
+    service:'gmail',
+    auth:{
+        user:"rahulchamp2000@gmail.com",
+        pass:oauth_details.nodemailer_pass
+    }
+});
 
 app.use(express.json());
 app.use(express.urlencoded({extended:true}))
@@ -35,6 +46,34 @@ app.get('/check',(req,res)=>{
     {res.send({user:req.user})}
     else
     {res.send({user:true})}
+})
+app.post('/forgot_password_user',passport.authenticate('forgot_password_user',{
+    successRedirect:'/sillyuserfound',
+    failureRedirect:'/sillyusernotfound',
+    failureFlash:true
+}))
+app.get('/sillyuserfound',(req,res)=>{
+    let temp=req.user;
+    req.logOut();
+    res.send({user:temp,message:req.flash('message')[0]})
+})
+app.get('/sillyusernotfound',(req,res)=>{
+    res.send({user:null,message:req.flash('message')[0]})
+})
+app.post('/sendingpass',(req,res)=>{
+    let Maildetails={
+        from:'rahulchamp2000@gmail.com',
+        to:req.body.email,
+        subject:"THE PASSWORD NOT REMEMBERED",
+        text:`HEY ${req.body.user.username} from PERSONAL-COUNTER
+              SHIT HAPPENS!!!!!
+              HERE IS YOUR PASSWORD----->${req.body.user.password}
+              HERE IS THE LINK TO LOGIN PAGE--->http://localhost:3000/login`
+    }
+    transporter.sendMail(Maildetails,(err,info)=>{
+        if(err){res.send({msg:err,success:false})}
+        else{res.send({msg:info,success:true});}
+    })
 })
 app.post('/signup',passport.authenticate('signup',{
     successRedirect:'/private',

@@ -69,6 +69,8 @@ class Login extends React.Component
                             <br/><br/>
                             <button className="btn btn-outline-dark" onClick={()=>{this.clickhandler(object.assignuser)}}>LOGIN</button>
                             <br/><br/>
+                            <Link className="text-center" to="forgot_password" exact strict>FORGOT PASSWORD</Link>
+                            <br/><br/>
                             <Link to="/" strict exact><button className="btn btn-outline-primary">CANCEL AND BACK TO HOME</button></Link>
                         </div>
                     )

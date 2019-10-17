@@ -6,6 +6,7 @@ const GoogleStrategy=require('passport-google-oauth20')
 const oauth=require('./oauth')
 
 passport.serializeUser(function (user, done) {
+
     if(user.provider==='google')
     {done(null,user.id)}
     else
@@ -42,6 +43,27 @@ passport.deserializeUser(function (username, done) {
         done(err)
     })
 })
+
+passport.use('forgot_password_user',new LocalStrategy({
+    passReqToCallback:true
+},
+function(req,username,password,done)
+{
+    users.findOne({
+        where:{
+            username:username
+        }
+    })
+    .then((user)=>{
+        if(!user){return done(null,false,req.flash('message',"no such user exists in db,please sign up with a new account"))}
+        else
+        {
+            return done(null,user,req.flash('message','user found,please enter your email id and your password will be sent to you via mail'))
+        }
+    })
+    .catch((err)=>{return done(err)})
+}))
+
 
 passport.use('signup',new LocalStrategy({
     passReqToCallback:true

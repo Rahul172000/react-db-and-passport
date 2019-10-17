@@ -6,6 +6,7 @@ import Home from "./components/Home"
 import Signup from './components/Signup'
 import Login from './components/Login'
 import Profile from './components/profile'
+import Forgot_Password from './components/forgot_password'
 import {ModalConsumer} from './components/context'
 import axios from 'axios'
 
@@ -89,6 +90,14 @@ class App extends React.Component
                   let user={username:"GUEST",password:"GUEST",value:0};
                   object.assignuser(user);
                   return( <Profile/>)
+                }
+              }}/>
+              <Route path='/forgot_password' exact strict render={()=>{
+                if(object.userloggedin!==true)
+                {return (<Profile/>)}
+                else
+                {
+                  return(<Forgot_Password/>);
                 }
               }}/>
               {/*Route for private page which should be visible only if user is logged in*/}
