@@ -7,7 +7,8 @@ const session=require('express-session')
 const flash = require('connect-flash');
 const cookieParser = require('cookie-parser')
 const passport=require('./passport')
-const nodemailer=require('nodemailer')//////////module for sending mails from app
+const nodemailer=require('nodemailer')//////////package for sending mails from app...........turn on setting from user gmail account
+                                        ////////////less secured apps one
 
 const oauth_details=require('./oauth')
 
