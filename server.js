@@ -8,7 +8,7 @@ const flash = require('connect-flash');
 const cookieParser = require('cookie-parser')
 const passport=require('./passport')
 const nodemailer=require('nodemailer')//////////package for sending mails from app...........turn on setting from user gmail account
-                                        ////////////less secured apps one
+                                        ////////////less secured apps one link=https://myaccount.google.com/lesssecureapps?pli=1
 
 const oauth_details=require('./oauth')
 
@@ -72,6 +72,7 @@ app.post('/sendingpass',(req,res)=>{
               HERE IS THE LINK TO LOGIN PAGE--->http://localhost:3000/login`
     }
     transporter.sendMail(Maildetails,(err,info)=>{
+        console.log(err);
         if(err){res.send({msg:err,success:false})}
         else{res.send({msg:info,success:true});}
     })
